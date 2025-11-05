@@ -21,33 +21,43 @@
     body{
       margin:0;
       font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-      background:linear-gradient(180deg,#050608 0%, var(--bg) 60%);
       color:#e6eef8;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       line-height:1.5;
       padding:36px 18px;
+      overflow-x:hidden;
+      background:var(--bg);
     }
-    .wrap{max-width:var(--maxw);margin:0 auto}
 
-    header{
-      display:flex;justify-content:space-between;align-items:center;margin-bottom:28px
+    /* animated multicolor gradient background */
+    .bg-anim{
+      position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.55;
+      background:linear-gradient(120deg,#1e3a8a, #7c3aed, #f97316, #0ea5b7);
+      background-size:300% 300%;
+      animation:gradMove 24s linear infinite;
+      filter:blur(40px);
+      mix-blend-mode:screen;
     }
+    @keyframes gradMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+    /* ripple effect */
+    .ripple{position:absolute;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;background:rgba(255,255,255,0.08);animation:ripple .8s ease-out}
+    @keyframes ripple{from{opacity:0.9; width:0;height:0}to{opacity:0;width:300px;height:300px}}
+
+    .wrap{position:relative;z-index:6;max-width:var(--maxw);margin:0 auto}
+
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
     .brand{display:flex;gap:14px;align-items:center}
-    .logo{
-      width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#60a5fa);
-      display:flex;align-items:center;justify-content:center;font-weight:700;color:#04203a;letter-spacing:0.6px
-    }
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#60a5fa);display:flex;align-items:center;justify-content:center;font-weight:700;color:#04203a;letter-spacing:0.6px;transition:transform .3s var(--ease);}
     h1{margin:0;font-size:20px}
     p.lead{margin:0;color:var(--muted)}
 
-    nav a{color:var(--muted);text-decoration:none;margin-left:18px;font-size:14px}
+    nav a{color:var(--muted);text-decoration:none;margin-left:18px;font-size:14px;transition:color .3s}
     nav a:hover{color:var(--accent);transform:translateY(-2px)}
 
-    .hero{
-      display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start;margin-bottom:28px
-    }
-    .card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:0 6px 18px rgba(2,6,23,0.6);backdrop-filter:blur(6px);opacity:0;transform:translateY(8px) ;transition:all .6s var(--ease);}
+    .hero{display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start;margin-bottom:28px}
+    .card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:0 6px 18px rgba(2,6,23,0.6);backdrop-filter:blur(6px);opacity:0;transform:translateY(8px);transition:all .6s var(--ease);}
     .card.show{opacity:1;transform:none}
 
     .intro h2{margin:0 0 8px 0;font-size:28px}
@@ -60,34 +70,56 @@
     .right .meta{color:var(--muted);font-size:14px}
     .contact-card{display:flex;flex-direction:column;gap:10px}
     .contact-row{display:flex;justify-content:space-between;align-items:center}
-    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,#065f9c,#0ea5b7);color:#041926;font-weight:700;text-decoration:none}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,#065f9c,#0ea5b7);color:#041926;font-weight:700;text-decoration:none;transition:transform .3s var(--ease), box-shadow .3s var(--ease)}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 0 12px rgba(125,211,252,0.4)}
 
     section{margin-bottom:26px}
     h3{margin:0 0 12px 0}
     .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-    .project{padding:14px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));}
+    .project{padding:14px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));transition:transform .4s var(--ease), box-shadow .3s var(--ease)}
     .project h4{margin:0 0 8px 0}
     .muted{color:var(--muted)}
+    .project:hover{transform:translateY(-6px);box-shadow:0 0 12px rgba(125,211,252,0.4)}
 
     .video-wrap{border-radius:10px;overflow:hidden;background:#000}
     iframe{width:100%;height:100%;min-height:210px;border:0;display:block}
 
     footer{color:var(--muted);font-size:13px;text-align:center;padding:24px}
 
-    a.social{opacity:.95}
-    .project:hover{transform:translateY(-6px);transition:transform .28s var(--ease)}
-    .btn:hover{transform:translateY(-3px)}
-
     .form{display:grid;gap:8px}
     input,textarea{width:100%;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit}
 
-    @media (max-width:880px){
-      .hero{grid-template-columns:1fr}
-      .right{order:2}
-    }
+    @media (max-width:880px){.hero{grid-template-columns:1fr}.right{order:2}}
+
+    /* Cat and paw styles */
+    .cat-area{position:fixed;left:0;right:0;bottom:0;height:140px;pointer-events:none;z-index:120}
+    .cat-wrap{position:absolute;bottom:18px;right:20px;width:160px;height:110px;pointer-events:auto}
+
+    .cat-svg{width:160px;height:110px;display:block;}
+    .cat-body{fill:#ff8a3d;filter:drop-shadow(0 8px 18px rgba(255,138,61,0.16));}
+    .cat-eye{fill:#111}
+    .cat-paw{fill:#ffb38a}
+
+    .cat-hidden{opacity:0;transform:translateY(40px) scale(0.95);transition:all .6s cubic-bezier(.2,.9,.2,1)}
+    .cat-visible{opacity:1;transform:none}
+
+    .cat-walk{animation:walkAnim 6s linear forwards}
+    @keyframes walkAnim{0%{transform:translateX(100vw)}50%{transform:translateX(40vw)}100%{transform:translateX(-220px)}}
+
+    .paw-print{position:absolute;bottom:26px;width:12px;height:12px;border-radius:50%;background:rgba(255,138,61,0.9);box-shadow:0 0 12px rgba(255,138,61,0.5);opacity:0;transform:translateY(6px);}
+    .paw-show{animation:pawFade 3s forwards}
+    @keyframes pawFade{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-10px) scale(0.6)}}
+
+    .cat-jump{animation:catJump .6s ease-out}
+    @keyframes catJump{0%{transform:translateY(0)}50%{transform:translateY(-48px)}100%{transform:translateY(0)}}
+
+    .speech-bubble{position:absolute;bottom:88px;left:10px;background:rgba(255,255,255,0.95);color:#111;padding:8px 10px;border-radius:12px;font-weight:700;opacity:0;transform:translateY(6px);transition:all .35s}
+    .speech-show{opacity:1;transform:none}
+
   </style>
 </head>
 <body>
+  <div class="bg-anim"></div>
   <div class="wrap">
     <header>
       <div class="brand">
@@ -201,15 +233,12 @@
       <section id="contact" class="card">
         <h3>Contact</h3>
         <p class="muted">Prefer mail? Use the link below. I check messages and reply personally.</p>
-
         <div style="display:grid;gap:8px;margin-top:12px">
           <a class="btn" href="mailto:156gauravshinde@gmail.com">Email Me</a>
           <a class="btn" href="tel:+919309950307" style="background:transparent;border:1px solid rgba(255,255,255,0.05);color:var(--muted);font-weight:600">Call</a>
           <a class="btn" href="https://www.linkedin.com/in/gaurav-shinde-322110293" target="_blank" rel="noopener" style="background:transparent;border:1px solid rgba(255,255,255,0.05);color:var(--muted);font-weight:600">LinkedIn</a>
         </div>
-
       </section>
-
     </main>
 
     <footer>
@@ -217,20 +246,124 @@
     </footer>
   </div>
 
+  <!-- Cat area (appears occasionally) -->
+  <div class="cat-area" aria-hidden="true">
+    <div id="catWrap" class="cat-wrap cat-hidden">
+      <div id="speech" class="speech-bubble">Hi 👋</div>
+      <!-- SVG Cat (orange) -->
+      <svg class="cat-svg" viewBox="0 0 160 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="orange cat">
+        <g id="catGroup">
+          <ellipse cx="80" cy="64" rx="52" ry="36" class="cat-body" />
+          <!-- head -->
+          <ellipse cx="112" cy="34" rx="28" ry="26" class="cat-body" />
+          <!-- ears -->
+          <polygon points="98,15 110,2 122,16" class="cat-body" />
+          <polygon points="126,18 138,6 142,22" class="cat-body" opacity="0.95" />
+          <!-- eyes -->
+          <circle cx="104" cy="32" r="4" class="cat-eye" />
+          <circle cx="120" cy="32" r="4" class="cat-eye" />
+          <!-- paw (front) -->
+          <circle id="paw" cx="54" cy="72" r="8" class="cat-paw" />
+          <!-- tail -->
+          <path d="M28 52 C10 40, 6 80, 46 72" stroke="#ff8a3d" stroke-width="8" fill="none" stroke-linecap="round" />
+        </g>
+      </svg>
+    </div>
+  </div>
+
   <script>
+    // basic interactivity: year, reveal
     document.getElementById('year').textContent = new Date().getFullYear();
     const reveal = () => document.querySelectorAll('.card').forEach((el,i)=>setTimeout(()=>el.classList.add('show'), 80*i));
     reveal();
+
+    // smooth nav
     document.querySelectorAll('nav a[href^="#"]').forEach(a=>{
       a.addEventListener('click', e=>{
         e.preventDefault();
         document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth', block:'start'});
       })
     })
-    const logo = document.querySelector('.logo');
-    logo.addEventListener('mouseenter', ()=>logo.style.transform='translateY(-3px) scale(1.02)');
-    logo.addEventListener('mouseleave', ()=>logo.style.transform='none');
+
+    // ripple on click
+    document.addEventListener('click', (e)=>{
+      const r = document.createElement('div');
+      r.className='ripple';
+      r.style.left = e.clientX + 'px';
+      r.style.top = e.clientY + 'px';
+      document.body.appendChild(r);
+      setTimeout(()=>r.remove(), 900);
+    });
+
+    // Cat logic: appears occasionally, walks, leaves paw prints, reacts to clicks
+    const catWrap = document.getElementById('catWrap');
+    const speech = document.getElementById('speech');
+    let catTimer = null;
+
+    function spawnCat(){
+      // reset
+      catWrap.classList.remove('cat-hidden');
+      speech.classList.remove('speech-show');
+      void catWrap.offsetWidth;
+
+      // place start right off-screen
+      catWrap.style.right = '-220px';
+      catWrap.classList.add('cat-walk');
+      catWrap.classList.add('cat-visible');
+
+      // show speech after a short delay
+      setTimeout(()=>speech.classList.add('speech-show'), 1800);
+
+      // create paw prints as it walks
+      const pawInterval = setInterval(()=>{
+        const paw = document.createElement('div');
+        paw.className='paw-print paw-show';
+        // random x along cat area track
+        const parentRect = document.body.getBoundingClientRect();
+        // position relative to viewport width based on catWrap transform
+        const left = (Math.random()*0.6 + 0.2) * window.innerWidth; // between 20%-80%
+        paw.style.left = left + 'px';
+        paw.style.bottom = '18px';
+        document.body.appendChild(paw);
+        setTimeout(()=>paw.remove(), 3200);
+      }, 700);
+
+      // after walk completes (6s), cleanup
+      setTimeout(()=>{
+        clearInterval(pawInterval);
+        catWrap.classList.remove('cat-walk');
+        catWrap.classList.add('cat-hidden');
+        speech.classList.remove('speech-show');
+      }, 6200);
+    }
+
+    // spawn every ~30 seconds (with small randomness)
+    function scheduleCat(){
+      const delay = 20000 + Math.random()*20000; // 20-40s
+      catTimer = setTimeout(()=>{
+        spawnCat();
+        scheduleCat();
+      }, delay);
+    }
+    scheduleCat();
+
+    // click reaction on cat: jump and show quick speech
+    document.getElementById('catWrap').addEventListener('click', (e)=>{
+      e.stopPropagation(); // don't trigger body ripple
+      const wrap = e.currentTarget;
+      wrap.classList.add('cat-jump');
+      speech.classList.add('speech-show');
+      setTimeout(()=>{wrap.classList.remove('cat-jump'); speech.classList.remove('speech-show');}, 800);
+      // small meow text briefly
+      const m = document.createElement('div');
+      m.textContent = 'meow~';
+      m.style.position='fixed'; m.style.bottom='170px'; m.style.right=(parseInt(getComputedStyle(wrap).right)||20)+'px'; m.style.background='rgba(255,255,255,0.95)'; m.style.color='#111'; m.style.padding='6px 8px'; m.style.borderRadius='8px'; m.style.fontWeight='700'; m.style.zIndex=9999; document.body.appendChild(m);
+      setTimeout(()=>m.remove(),900);
+    });
+
+    // small accessibility: allow keyboard to trigger cat spawn via 'c'
+    document.addEventListener('keydown', (e)=>{ if(e.key==='c'){ spawnCat(); }});
+
   </script>
 </body>
 </html>
-
